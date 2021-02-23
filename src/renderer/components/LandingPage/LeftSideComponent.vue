@@ -1,38 +1,38 @@
 <template>
-<div class="wrapper">
-    <LoginCardComponent v-if="!isLogedIn"></LoginCardComponent>
-    <ProfileComponent v-else></ProfileComponent>    
-    <CalendarListComponent v-if="isLogedIn"></CalendarListComponent>
-    <TimerComponent v-if="isLogedIn"></TimerComponent>
-</div>
+  <div class="wrapper">
+    <LoginCardComponent v-if="!isLoggedIn"></LoginCardComponent>
+    <ProfileComponent v-else></ProfileComponent>
+    <CalendarListComponent v-if="isLoggedIn"></CalendarListComponent>
+    <TimerComponent v-if="isLoggedIn"></TimerComponent>
+  </div>
 </template>
 
 <script>
-import LoginCardComponent from './LeftSideComponent/LoginCardComponent'
-import ProfileComponent from './LeftSideComponent/ProfileComponent'
-import CalendarListComponent from './LeftSideComponent/CalendarListComponent'
-import TimerComponent from './LeftSideComponent/TimerComponent'
+import LoginCardComponent from './LoginCardComponent';
+import ProfileComponent from './ProfileComponent';
+import CalendarListComponent from './CalendarListComponent';
+import TimerComponent from './TimerComponent';
 
 
-export default{
-    components : {
-        LoginCardComponent,
-        ProfileComponent,
-        CalendarListComponent,
-        TimerComponent
+export default {
+  components: {
+    LoginCardComponent,
+    ProfileComponent,
+    CalendarListComponent,
+    TimerComponent,
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters.isUserLoggedIn;
     },
-    computed:{
-        isLogedIn(){
-            return this.$store.getters.isUserLogedIn;
-        }
-    }
-}
+  },
+};
 </script>
 
 <style scoped>
-.wrapper{
-    height: 100%;
-    overflow: hidden;
+.wrapper {
+  height: 100%;
+  overflow: hidden;
 }
 
 

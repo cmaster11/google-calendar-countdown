@@ -1,24 +1,24 @@
 const state = {
-    selectedEventTimeInSec: 0
-}
+  selectedEvent: null,
+};
 
 const getters = {
-    getSelectedEventTime(state) {
-        return state.selectedEventTimeInSec;
-    }
-}
+  getSelectedEvent(state) {
+    return state.selectedEvent;
+  },
+};
 
 const mutations = {
-    setCurrentEventTime(state, timeInSec) {
-        state.selectedEventTimeInSec = timeInSec;
-    },
-    unsetCurrentEventTime(state, timeInSec) {
-        state.selectedEventTimeInSec = 0;
-    }
-}
+  setCurrentEvent(state, event) {
+    state.selectedEvent = event;
+  },
+  unsetCurrentEvent(state) {
+    state.selectedEvent = null;
+  },
+};
 
 export default {
-    state,
-    getters,
-    mutations
-}
+  state,
+  getters,
+  mutations,
+};

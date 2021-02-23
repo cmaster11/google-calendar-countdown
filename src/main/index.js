@@ -1,79 +1,50 @@
-import { app, BrowserWindow,ipcMain } from 'electron';
-const electronOauth2 = require('electron-oauth2');
-const oauthConfig = require('./googleOAuthConfig').oauth;
+import {app, BrowserWindow} from 'electron';
+import './oauth';
 
 /**
  * Set `__static` path to static files in production
  * https://simulatedgreg.gitbooks.io/electron-vue/content/en/using-static-assets.html
  */
 if (process.env.NODE_ENV !== 'development') {
-  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\')
+  global.__static = require('path').join(__dirname, '/static').replace(/\\/g, '\\\\');
 }
 
-//authentication and autheriztion start
-const loginWindowParams = {
-  alwaysOnTop: true,
-  autoHideMenuBar: true,
-  webPreferences: {
-    nodeIntegration: false
-  }
-};
-
-const options = {
-  scope:
-  'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/userinfo.email',
-  accessType: 'online'
-};
-
-const googleOAuth = electronOauth2(oauthConfig,loginWindowParams);
-ipcMain.on('google-oauth', (event,arg)=>{
-  googleOAuth.getAccessToken(options)
-    .then(token =>{
-      event.sender.send('google-oauth-reply', token);
-    },err =>{
-      loginWindowParams.quit();
-      event.sender.send('google-oauth-error', err);
-    });
-});
-//authentication and autherization ends
-
-
-let mainWindow
+let mainWindow;
 const winURL = process.env.NODE_ENV === 'development'
   ? `http://localhost:9080`
-  : `file://${__dirname}/index.html`
+  : `file://${__dirname}/index.html`;
 
-function createWindow () {
+function createWindow() {
   /**
    * Initial window options
    */
   mainWindow = new BrowserWindow({
     height: 563,
     useContentSize: true,
-    width: 1000
-  })
-  
-  mainWindow.setMenu(null)
-  mainWindow.loadURL(winURL)
+    width: 1000,
+  });
+
+  mainWindow.setMenu(null);
+  mainWindow.loadURL(winURL);
 
   mainWindow.on('closed', () => {
-    mainWindow = null
-  })
+    mainWindow = null;
+  });
 }
 
-app.on('ready', createWindow)
+app.on('ready', createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
-    app.quit()
+    app.quit();
   }
-})
+});
 
 app.on('activate', () => {
   if (mainWindow === null) {
-    createWindow()
+    createWindow();
   }
-})
+});
 
 /**
  * Auto Updater
